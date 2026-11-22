@@ -1,2 +1,2 @@
 Assignment 4.1 - Local Ollama workflow with course image, full command and response
-https://drluarn.github.io/
+https://335334.github.io/
