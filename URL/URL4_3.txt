@@ -1,2 +1,2 @@
-Gemini Notebook
+Assignment 4.3 - Gemini Notebook sources, generation prompt and all 15 slides
 https://drluarn.github.io/

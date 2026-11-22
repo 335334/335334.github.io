@@ -1,2 +1,2 @@
-Gemini Skills-3 multi-agent virtual team
+Assignment 4.7 - Local Gemini API workflow and tested ClearVision prototype (alternative)
 https://drluarn.github.io/
