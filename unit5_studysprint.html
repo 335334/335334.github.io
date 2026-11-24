@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StudySprint – Dein nächster Arbeitsschritt</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font: 100%/1.55 system-ui, sans-serif;
+      --ink: #152e29;
+      --muted: #4d645e;
+      --paper: #f5f6ef;
+      --white: #fffefa;
+      --green: #0f5947;
+      --line: #bfcfc5;
+      --error: #8b2a1b;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    p, h1, h2, h3 { margin: 0; overflow-wrap: anywhere; }
+    [hidden] { display: none !important; }
+    main { width: min(1120px, 100% - 2rem); margin: 0 auto; padding: 2rem 0 4rem; }
+    header { padding: 1.7rem 0 2.2rem; }
+    .brand { color: var(--green); font-weight: 780; margin-bottom: .65rem; }
+    h1 {
+      max-width: 18ch;
+      font: 600 clamp(2.25rem, 6vw, 4.25rem)/1.04 Georgia, serif;
+      letter-spacing: -.035em;
+      margin-bottom: 1rem;
+    }
+    h2 { font-size: 1.42rem; line-height: 1.2; margin-bottom: .6rem; }
+    h3 { font-size: 1.08rem; }
+    .intro { max-width: 57ch; font-size: 1.08rem; }
+    .note { color: var(--muted); font-size: .94rem; }
+    header .note { max-width: 71ch; margin-top: .8rem; }
+    .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; }
+    .panel { min-width: 0; padding: clamp(1rem, 3vw, 1.55rem); background: var(--white); border: 1px solid var(--line); border-radius: 1rem; }
+    .sidebar { min-width: 0; display: grid; gap: 1rem; }
+    .assignment { min-width: 0; margin: 1.2rem 0; padding: .9rem; background: #f3f7f1; border: 1px solid var(--line); border-radius: .75rem; }
+    legend { padding: 0 .35rem; font-weight: 720; }
+    label { display: grid; min-width: 0; gap: .3rem; font-weight: 650; }
+    label + label, label + .field-pair { margin-top: .65rem; }
+    .field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+    .field-pair label + label { margin-top: 0; }
+    input, select, textarea {
+      display: block; width: 100%; min-width: 0; min-height: 44px; padding: .5rem .55rem;
+      font: inherit; font-weight: 400; color: inherit; background: white;
+      border: 1px solid #779188; border-radius: .45rem;
+    }
+    textarea { resize: vertical; min-height: 7rem; }
+    :focus-visible { outline: 3px solid #29654e; outline-offset: 3px; }
+    [aria-invalid="true"] { border: 2px solid var(--error); }
+    .actions { display: flex; flex-wrap: wrap; gap: .65rem; align-items: center; margin-top: 1rem; }
+    button {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
+      font: inherit; padding: .5rem .85rem; border: 1px solid var(--green);
+      border-radius: .55rem; font-weight: 700; cursor: pointer;
+      color: white; background: var(--green);
+    }
+    button:hover { background: #0a4537; }
+    button:disabled { color: #40584e; background: #e4ebe5; border-color: var(--line); cursor: default; }
+    .quiet { background: transparent; color: var(--green); }
+    .quiet:not(:disabled):hover { background: #e6efe8; }
+    .assignment .quiet { margin-top: .65rem; }
+    .overdue, .error { color: var(--error); font-weight: 650; margin-top: .45rem; }
+    .suggestion { margin: .8rem 0 1rem; padding: .8rem .9rem; border-left: .24rem solid var(--green); border-radius: .2rem; background: #e8f1e9; }
+    .suggestion p { margin-top: .25rem; }
+    #recommendation form { margin-top: 1rem; }
+    #recommendation form .note { margin-top: .35rem; }
+    #focus { background: #e8f1e9; }
+    .clock { font-size: clamp(3.2rem, 8vw, 4.8rem); line-height: 1; font-weight: 730; font-variant-numeric: tabular-nums; letter-spacing: -.045em; margin: .9rem 0; }
+    #focus-status { margin-top: .75rem; }
+
+    @media (max-width: 790px) { .layout { grid-template-columns: 1fr; } }
+    @media (max-width: 380px) { .field-pair { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="brand">StudySprint</p>
+      <h1>Was fängst du in den nächsten 25 Minuten an?</h1>
+      <p class="intro">Trag deine Abgaben ein. StudySprint schlägt dir einen ersten Schritt vor, den du vor dem Start anpassen kannst.</p>
+      <p class="note">Kursdemo mit Beispieldaten. Alles läuft in diesem Tab nach festen Regeln. Beim Neuladen werden deine Eingaben zurückgesetzt.</p>
+    </header>
+    <div class="layout">
+      <section class="panel" aria-labelledby="assignment-heading">
+        <h2 id="assignment-heading">Deine Abgaben</h2>
+        <p class="note">Gib mindestens zwei Abgaben mit Titel und Fälligkeitsdatum ein.</p>
+        <form id="assignments" novalidate>
+          <div id="rows"></div>
+          <p class="error" id="assignment-error" role="alert" hidden></p>
+          <div class="actions">
+            <button type="button" class="quiet" id="add">Abgabe hinzufügen</button>
+            <button type="submit">Vorschlag anzeigen</button>
+          </div>
+        </form>
+      </section>
+      <div class="sidebar">
+        <section class="panel" id="recommendation" aria-labelledby="suggestion-heading" hidden>
+          <h2 id="suggestion-heading" tabindex="-1">Dein Vorschlag</h2>
+          <div class="suggestion" aria-live="polite">
+            <h3 id="chosen-title"></h3>
+            <p id="rationale"></p>
+          </div>
+          <p class="note">Die Reihenfolge richtet sich nach der Frist. Der Umfang der Aufgaben und Abhängigkeiten zwischen ihnen bleiben dabei unberücksichtigt. Überfällige Abgaben zählen mit.</p>
+          <form id="step-form" novalidate>
+            <label for="override">Andere Abgabe wählen</label>
+            <select id="override"></select>
+            <label for="step" style="margin-top:.75rem">Dein nächster Arbeitsschritt</label>
+            <textarea id="step" maxlength="450" aria-describedby="step-tip step-error"></textarea>
+            <p class="note" id="step-tip">Du kannst den Vorschlag direkt ändern.</p>
+            <p class="error" id="step-error" role="alert" hidden></p>
+            <div class="actions"><button id="start" type="submit">25 Minuten starten</button></div>
+          </form>
+        </section>
+        <section class="panel" id="focus" aria-labelledby="focus-heading" hidden>
+          <h2 id="focus-heading" tabindex="-1">Deine Fokusphase</h2>
+          <p class="clock" role="timer" aria-label="Verbleibende Zeit" id="remaining">25:00</p>
+          <p id="confirmed"></p>
+          <p id="focus-status" role="status"></p>
+          <div class="actions">
+            <button class="quiet" type="button" id="toggle">Pausieren</button>
+            <button class="quiet" type="button" id="reset">Zurücksetzen</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <template id="assignment-template">
+    <fieldset class="assignment">
+      <legend></legend>
+      <label>Titel<input name="title" required maxlength="100"></label>
+      <div class="field-pair">
+        <label>Fällig am<input name="due" type="date" required></label>
+        <label>Aufgabenart<select name="type">
+          <option value="text">Text</option>
+          <option value="presentation">Präsentation</option>
+          <option value="other" selected>Sonstiges</option>
+        </select></label>
+      </div>
+      <p class="overdue" hidden>Überfällig</p>
+      <button type="button" class="quiet remove" hidden>Abgabe entfernen</button>
+    </fieldset>
+  </template>
+  <script>
+    const byId = id => document.getElementById(id);
+    const rows = byId("rows");
+    const assignmentError = byId("assignment-error");
+    const recommendation = byId("recommendation");
+    const override = byId("override");
+    const step = byId("step");
+    const stepError = byId("step-error");
+    const focus = byId("focus");
+    const start = byId("start");
+    const toggle = byId("toggle");
+    const duration = 25 * 60 * 1000;
+    let suggestions = [];
+    let preferred = 0;
+    let timeLeft = duration;
+    let endsAt = 0;
+    let tickHandle = null;
+
+    function dateNumber(date) {
+      return Number(date.replaceAll("-", ""));
+    }
+
+    function dateLabel(date) {
+      return date.split("-").reverse().join(".");
+    }
+
+    function isOverdue(date) {
+      const today = new Date();
+      const todayNumber = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+      return Boolean(date && dateNumber(date) < todayNumber);
+    }
+
+    function renumberRows() {
+      [...rows.children].forEach((row, index) => {
+        row.querySelector("legend").textContent = `Abgabe ${index + 1}`;
+        row.querySelector(".remove").setAttribute("aria-label", `Abgabe ${index + 1} entfernen`);
+      });
+    }
+
+    function invalidateSuggestion() {
+      recommendation.hidden = true;
+      assignmentError.hidden = true;
+      for (const field of rows.querySelectorAll("[aria-invalid]")) {
+        field.removeAttribute("aria-invalid");
+        field.removeAttribute("aria-errormessage");
+      }
+    }
+
+    function addRow({ title = "", due = "", type = "other", removable = true } = {}) {
+      const row = byId("assignment-template").content.firstElementChild.cloneNode(true);
+      const titleInput = row.querySelector("[name=title]");
+      const dueInput = row.querySelector("[name=due]");
+      const overdue = row.querySelector(".overdue");
+      const remove = row.querySelector(".remove");
+      titleInput.value = title;
+      dueInput.value = due;
+      row.querySelector("[name=type]").value = type;
+      overdue.hidden = !isOverdue(due);
+      remove.hidden = !removable;
+      row.addEventListener("input", () => {
+        overdue.hidden = !isOverdue(dueInput.value);
+        invalidateSuggestion();
+      });
+      remove.addEventListener("click", () => {
+        row.remove();
+        renumberRows();
+        invalidateSuggestion();
+        byId("add").focus();
+      });
+      rows.append(row);
+      renumberRows();
+      return titleInput;
+    }
+
+    function showAssignmentError(message, field) {
+      assignmentError.textContent = message;
+      assignmentError.hidden = false;
+      if (field) {
+        field.setAttribute("aria-invalid", "true");
+        field.setAttribute("aria-errormessage", "assignment-error");
+        field.focus();
+      }
+    }
+
+    function suggestedStep({ title, type }) {
+      const byType = {
+        text: `Skizziere drei Zwischenüberschriften für „${title}“ und notiere unter jeder einen Stichpunkt.`,
+        presentation: `Notiere drei Kernaussagen für „${title}“ und ordne sie den ersten Folien zu.`,
+        other: `Notiere den ersten Teilschritt für „${title}“ und leg das Material dafür bereit.`
+      };
+      return byType[type];
+    }
+
+    function clearStepError() {
+      stepError.hidden = true;
+      step.removeAttribute("aria-invalid");
+    }
+
+    function showSuggestion(index, manual = false) {
+      const candidate = suggestions[index];
+      const equalDeadlines = suggestions.filter(item => item.due === candidate.due).length > 1;
+      const deadline = `${candidate.title} · fällig am ${dateLabel(candidate.due)}`;
+      byId("chosen-title").textContent = isOverdue(candidate.due) ? `${deadline} · Überfällig` : deadline;
+      let reason = "Diese Abgabe hat die früheste Frist in deiner Liste.";
+      if (manual) {
+        reason = "Du hast diese Abgabe ausgewählt.";
+      } else if (equalDeadlines) {
+        reason = "Mehrere Abgaben haben dieselbe früheste Frist. Diese Abgabe steht in deiner Liste vor den anderen.";
+      }
+      byId("rationale").textContent = reason;
+      override.value = String(index);
+      step.value = suggestedStep(candidate);
+      clearStepError();
+    }
+
+    byId("add").addEventListener("click", () => {
+      invalidateSuggestion();
+      addRow().focus();
+    });
+
+    byId("assignments").addEventListener("submit", event => {
+      event.preventDefault();
+      invalidateSuggestion();
+      const entered = [];
+      for (const [index, row] of [...rows.children].entries()) {
+        const title = row.querySelector("[name=title]");
+        const due = row.querySelector("[name=due]");
+        if (!title.value.trim()) {
+          showAssignmentError(`Gib einen Titel für Abgabe ${index + 1} ein.`, title);
+          return;
+        }
+        if (!due.value || !due.validity.valid) {
+          showAssignmentError(`Gib ein gültiges Fälligkeitsdatum für Abgabe ${index + 1} ein.`, due);
+          return;
+        }
+        entered.push({ title: title.value.trim(), due: due.value, type: row.querySelector("[name=type]").value });
+      }
+      if (entered.length < 2) {
+        showAssignmentError("Ergänze Titel und Fälligkeitsdatum für mindestens zwei Abgaben.");
+        return;
+      }
+      suggestions = entered;
+      preferred = suggestions.reduce((first, item, index) => {
+        return dateNumber(item.due) < dateNumber(suggestions[first].due) ? index : first;
+      }, 0);
+      override.replaceChildren(...suggestions.map((item, index) => {
+        const label = `${item.title} · ${dateLabel(item.due)}${isOverdue(item.due) ? " · Überfällig" : ""}`;
+        return new Option(label, String(index));
+      }));
+      showSuggestion(preferred);
+      recommendation.hidden = false;
+      byId("suggestion-heading").focus();
+    });
+
+    override.addEventListener("change", () => showSuggestion(Number(override.value), true));
+    step.addEventListener("input", clearStepError);
+
+    function renderTimer() {
+      const seconds = Math.ceil(timeLeft / 1000);
+      const minutes = String(Math.floor(seconds / 60)).padStart(2, "0");
+      byId("remaining").textContent = `${minutes}:${String(seconds % 60).padStart(2, "0")}`;
+    }
+
+    function stopTicker() {
+      clearInterval(tickHandle);
+      tickHandle = null;
+    }
+
+    function updateTimer() {
+      timeLeft = Math.max(0, endsAt - Date.now());
+      renderTimer();
+      if (timeLeft === 0) {
+        stopTicker();
+        start.disabled = false;
+        toggle.disabled = true;
+        byId("focus-status").textContent = "25 Minuten sind um. Halte kurz fest, wo du weitermachen möchtest.";
+      }
+    }
+
+    function runTimer() {
+      endsAt = Date.now() + timeLeft;
+      toggle.textContent = "Pausieren";
+      toggle.disabled = false;
+      start.disabled = true;
+      byId("focus-status").textContent = "";
+      renderTimer();
+      tickHandle = setInterval(updateTimer, 200);
+    }
+
+    byId("step-form").addEventListener("submit", event => {
+      event.preventDefault();
+      if (start.disabled) return;
+      const confirmed = step.value.trim();
+      if (!confirmed) {
+        step.setAttribute("aria-invalid", "true");
+        stepError.textContent = "Beschreibe zuerst, womit du anfangen möchtest.";
+        stepError.hidden = false;
+        step.focus();
+        return;
+      }
+      const assignmentTitle = suggestions[Number(override.value)].title;
+      byId("confirmed").textContent = `Jetzt dran: ${confirmed}`;
+      byId("confirmed").title = assignmentTitle;
+      timeLeft = duration;
+      focus.hidden = false;
+      runTimer();
+      byId("focus-heading").focus();
+    });
+
+    toggle.addEventListener("click", () => {
+      if (tickHandle === null) {
+        runTimer();
+        return;
+      }
+      updateTimer();
+      if (timeLeft === 0) return;
+      stopTicker();
+      toggle.textContent = "Fortsetzen";
+      byId("focus-status").textContent = "Fokusphase pausiert.";
+    });
+
+    byId("reset").addEventListener("click", () => {
+      stopTicker();
+      timeLeft = duration;
+      renderTimer();
+      toggle.disabled = true;
+      toggle.textContent = "Pausieren";
+      start.disabled = false;
+      byId("confirmed").textContent = "";
+      byId("confirmed").removeAttribute("title");
+      byId("focus-status").textContent = "";
+    });
+
+    addRow({ title: "Hausarbeit zum Konsumverhalten", due: "2026-11-26", type: "text", removable: false });
+    addRow({ title: "Präsentation zur Marktforschung", due: "2026-11-27", type: "presentation", removable: false });
+  </script>
+</body>
+</html>
