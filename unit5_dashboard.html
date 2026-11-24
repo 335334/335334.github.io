@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Agent Daily Info Dashboard</title>
+  <style>
+    :root { color-scheme: light; font: 100%/1.55 system-ui, sans-serif; color: #16273d; background: #f2f6fc; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(1060px, 100% - 2.5rem); margin: 0 auto; padding: 3rem 0; }
+    h1 { font-size: clamp(2.1rem, 5vw, 3.7rem); line-height: 1.06; letter-spacing: -.055em; margin: 0 0 .65rem; }
+    h2 { font-size: clamp(1.26rem, 3vw, 1.7rem); margin: 0 0 1rem; }
+    h3, p { margin: 0; }
+    header p, .meta { color: #465973; }
+    .filters { display: none; grid-template-columns: 1fr minmax(15rem, .65fr); gap: 1rem; margin: 2rem 0; }
+    .filters.ready { display: grid; }
+    label { display: grid; gap: .35rem; font-weight: 650; }
+    input, select { font: inherit; max-width: 100%; padding: .65rem .8rem; color: #16273d; background: white; border: 1px solid #8298b5; border-radius: .55rem; min-height: 44px; }
+    section { margin-top: 1rem; padding: clamp(1rem, 3vw, 1.8rem); background: white; border: 1px solid #cedaeb; border-radius: .9rem; }
+    article { padding: 1rem 0; border-top: 1px solid #dce6f3; }
+    article:last-of-type { padding-bottom: 0; }
+    article h3 { font-size: 1.1rem; }
+    article p { margin-top: .3rem; }
+    .meta { font-size: .875rem; }
+    a { color: #0c4aa2; text-underline-offset: .2em; }
+    :focus-visible { outline: 3px solid #226ce1; outline-offset: 3px; }
+    @media (max-width: 620px) { main { padding: 2rem 0; } .filters { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>AI Agent Daily Info Dashboard</h1>
+      <p>Updated <time datetime="2026-11-24">November 24, 2026</time> · Published November 18–24, 2026</p>
+    </header>
+    <div class="filters">
+      <label>Search updates<input type="search" id="query" placeholder="Try a publisher, product or topic"></label>
+      <label>Section<select id="section-filter">
+        <option value="">All sections</option>
+        <option value="technology">Technology updates</option>
+        <option value="media">Hands-on impressions</option>
+        <option value="products">Product introductions</option>
+      </select></label>
+      <p id="matches" role="status"></p>
+    </div>
+    <section id="technology" aria-labelledby="technology-title">
+      <h2 id="technology-title">Technology Updates from Each Company</h2>
+      <article>
+        <h3><a href="https://github.com/openai/codex/releases/tag/rust-v0.172.0">0.172.0</a></h3>
+        <p class="meta">OpenAI · <time datetime="2026-11-24">November 24, 2026</time></p>
+        <p>The Codex CLI can open saved conversations and nested agents from thread links, and queued child-agent replies survive interruptions to the parent turn.</p>
+      </article>
+      <article>
+        <h3><a href="https://github.com/openclaw/openclaw/releases/tag/v2026.11.7">OpenClaw v2026.11.7</a></h3>
+        <p class="meta">OpenClaw · <time datetime="2026-11-23">November 23, 2026</time></p>
+        <p>OpenClaw improves conversation recovery after updates and preserves scheduled jobs’ runtime budgets while they wait for busy sessions.</p>
+      </article>
+      <article>
+        <h3><a href="https://support.claude.com/en/articles/12138966-release-notes">Computer use (beta) for Team and Enterprise plans</a></h3>
+        <p class="meta">Anthropic · <time datetime="2026-11-20">November 20, 2026</time></p>
+        <p>Anthropic is rolling out a beta that lets Claude work in permitted desktop apps for Team and Enterprise users when computer access is enabled.</p>
+      </article>
+      <article>
+        <h3><a href="https://community.openai.com/t/gpt-live-1-1-has-arrived-in-the-api/1418537">GPT-Live-1.1 has arrived in the API</a></h3>
+        <p class="meta">OpenAI · <time datetime="2026-11-20">November 20, 2026</time></p>
+        <p>OpenAI released GPT-Live-1.1 for multilingual voice agents and added a standby mode that pauses the model during silence while keeping the call open.</p>
+      </article>
+      <article>
+        <h3><a href="https://blog.google/innovation-and-ai/technology/developers-tools/gemini-api-tool-retrieval/">Introducing Tool Retrieval in the Gemini API</a></h3>
+        <p class="meta">Google · <time datetime="2026-11-19">November 19, 2026</time></p>
+        <p>The Gemini Interactions API preview lets agents load tool schemas on demand, reducing input tokens and latency when working with large tool libraries.</p>
+      </article>
+      <p class="empty" hidden>No new updates this week</p>
+      <p class="no-match" hidden>No updates match your search.</p>
+    </section>
+    <section id="media" aria-labelledby="media-title">
+      <h2 id="media-title">Hands-on Impressions from Media</h2>
+      <article>
+        <h3><a href="https://www.tomsguide.com/ai/claude/claude-code-for-beginners-how-to-get-started-and-5-powerful-prompts-to-try">Claude Code for beginners — how to get started and 5 powerful prompts to try</a></h3>
+        <p class="meta">Tom’s Guide · <time datetime="2026-11-23">November 23, 2026</time></p>
+        <p>Amanda Caswell explains how to start using Claude Code and offers five prompts for practical first projects.</p>
+      </article>
+      <article>
+        <h3><a href="https://agentvera.dev/en/blog/how-to-use-hermes-agent/">How to use Hermes Agent: a step-by-step guide to the CLI</a></h3>
+        <p class="meta">AgentVera · <time datetime="2026-11-23">November 23, 2026</time></p>
+        <p>This walkthrough covers installing Hermes Agent, selecting a model provider and starting a first terminal session.</p>
+      </article>
+      <article>
+        <h3><a href="https://www.techradar.com/ai-platforms-assistants/google-just-made-its-ai-agent-free-here-are-5-everyday-jobs-you-can-now-ask-gemini-tasks-to-do-for-you">Google just made its AI agent free: Here are 5 everyday jobs you can now ask Gemini Tasks to do for you</a></h3>
+        <p class="meta">TechRadar · <time datetime="2026-11-20">November 20, 2026</time></p>
+        <p>Eric Hal Schwartz tries Gemini Tasks on five everyday jobs, including booking an appointment and tracking delayed packages.</p>
+      </article>
+      <article>
+        <h3><a href="https://realpython.com/agentic-loop/">Build an AI Agent From Scratch in Python: The Agentic Loop</a></h3>
+        <p class="meta">Real Python · <time datetime="2026-11-19">November 19, 2026</time></p>
+        <p>Stephen Gruppetta walks readers through building a Python agent that calls tools and repeats steps until it can answer.</p>
+      </article>
+      <article>
+        <h3><a href="https://www.gradually.ai/en/claude-code-vs-codex/">Claude Code vs. Codex: My In-Depth Test</a></h3>
+        <p class="meta">Gradually AI · <time datetime="2026-11-18">November 18, 2026</time></p>
+        <p>Finn Hillebrandt tests both coding agents on the same Mac and compares their terminal and desktop workflows.</p>
+      </article>
+      <p class="empty" hidden>No new updates this week</p>
+      <p class="no-match" hidden>No updates match your search.</p>
+    </section>
+    <section id="products" aria-labelledby="products-title">
+      <h2 id="products-title">New Product Introductions</h2>
+      <article>
+        <h3><a href="https://www.globenewswire.com/news-release/2026/11/23/3408386/0/en/levenza-launches-personal-ai-agents-globally-for-the-enterprise.html">Levenza launches personal AI agents globally for the enterprise</a></h3>
+        <p class="meta">Levenza via GlobeNewswire · <time datetime="2026-11-23">November 23, 2026</time></p>
+        <p>Levenza made its workplace agents globally available for tasks such as scheduling, room booking and tracking commitments across Microsoft Teams, Slack and Outlook.</p>
+      </article>
+      <article>
+        <h3><a href="https://www.protocol.dubai.ae/en/media-listing/news-events/mohammed-bin-rashid-witnesses-launch-of-new-uae-government-services-model-ai-concierge-agent-mira/">Mohammed bin Rashid witnesses launch of new UAE Government services model, AI concierge agent ‘Mira’</a></h3>
+        <p class="meta">Protocol Department of Dubai · <time datetime="2026-11-23">November 23, 2026</time></p>
+        <p>The UAE unveiled Mira, an AI concierge designed to guide users through government transactions in one conversation, with services rolling out from March 2027.</p>
+      </article>
+      <article>
+        <h3><a href="https://volcano.dev/blog/introducing-volcano-agent-cloud">Introducing Volcano, a self-healing agent cloud by Kong</a></h3>
+        <p class="meta">Volcano (Kong) · <time datetime="2026-11-19">November 19, 2026</time></p>
+        <p>Kong introduced a cloud platform for building and running agents with resumable sandboxes, durable workflows and app hosting.</p>
+      </article>
+      <article>
+        <h3><a href="https://nousresearch.com/hermes-enterprise-in-microsoft-teams">Nous Research partners with Microsoft to bring Hermes Agent to the enterprise</a></h3>
+        <p class="meta">Nous Research · <time datetime="2026-11-18">November 18, 2026</time></p>
+        <p>Hermes Enterprise brings Hermes Agent to Microsoft Teams and the Microsoft Store, with Azure sandboxes and reusable skills that employees can share.</p>
+      </article>
+      <article>
+        <h3><a href="https://blog.google/innovation-and-ai/models-and-research/google-deepmind/genie-4-now-available-project-genie/">Genie 4 is now available</a></h3>
+        <p class="meta">Google DeepMind and Google Labs · <time datetime="2026-11-18">November 18, 2026</time></p>
+        <p>Google introduced a conversational agent in Project Genie that helps eligible subscribers create and edit interactive worlds.</p>
+      </article>
+      <p class="empty" hidden>No new updates this week</p>
+      <p class="no-match" hidden>No updates match your search.</p>
+    </section>
+  </main>
+  <script>
+    const query = document.querySelector("#query");
+    const sectionFilter = document.querySelector("#section-filter");
+    const matches = document.querySelector("#matches");
+    const sections = [...document.querySelectorAll("main > section")];
+
+    function filterUpdates() {
+      const term = query.value.trim().toLowerCase();
+      let total = 0;
+      for (const section of sections) {
+        section.hidden = Boolean(sectionFilter.value && section.id !== sectionFilter.value);
+        const articles = [...section.querySelectorAll("article")];
+        let visible = 0;
+        for (const article of articles) {
+          article.hidden = !article.textContent.toLowerCase().includes(term);
+          if (!article.hidden) visible += 1;
+        }
+        section.querySelector(".empty").hidden = articles.length > 0;
+        section.querySelector(".no-match").hidden = articles.length === 0 || visible > 0;
+        if (!section.hidden) total += visible;
+      }
+      matches.textContent = total === 1 ? "1 update" : `${total} updates`;
+    }
+
+    query.addEventListener("input", filterUpdates);
+    sectionFilter.addEventListener("change", filterUpdates);
+    filterUpdates();
+    document.querySelector(".filters").classList.add("ready");
+  </script>
+</body>
+</html>
