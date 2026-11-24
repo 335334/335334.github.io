@@ -1,2 +1,1 @@
-Hermes
-https://335334.github.io/
+Hermes Agent v0.23.3 running and responding on InstaBox

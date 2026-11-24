@@ -1,2 +1,2 @@
-ChatGPT Sites
-https://335334.github.io/
+AI in Practice Lunchtime Workshop registration demo built in ChatGPT Sites
+https://335334.github.io/unit5_workshop.html

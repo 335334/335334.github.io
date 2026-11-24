@@ -1,2 +1,1 @@
-n8n AI Agent
-https://335334.github.io/
+n8n personal AI agent with memory, web search and current date

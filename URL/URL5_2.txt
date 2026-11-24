@@ -1,2 +1,2 @@
-ChatGPT multi-agent scheduled task
-https://335334.github.io/
+AI Agent Daily Info Dashboard and scheduled multi-agent research
+https://335334.github.io/unit5_dashboard.html
