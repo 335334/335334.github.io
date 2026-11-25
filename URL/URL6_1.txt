@@ -1,2 +1,1 @@
-Meta Muse
-https://335334.github.io/
+Local alternative to Meta Muse, with a timed Pforzheim briefing, a weekly sales dashboard and a short animated study clip.

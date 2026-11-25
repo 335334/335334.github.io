@@ -1,2 +1,1 @@
-Grok bot
-https://335334.github.io/
+Grok Bot as an AI teammate for recurring work, with campaign reporting and sales preparation examples.

@@ -1,2 +1,1 @@
-OpenAI Dots
-https://335334.github.io/
+OpenAI Dots explained through five functions, with workshop planning and research examples.
